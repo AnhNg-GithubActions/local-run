@@ -1,0 +1,40 @@
+name: Run E2E test 
+description: Run E2E with configurations
+inputs:
+  app-image:
+    description: Application docker app-image
+    required: true
+  e2e-image:
+    description: E2E docker app-image
+    required: true
+  docker-hub-user:
+    description: User to pull images
+    required: true
+  docker-hub-token:
+    description: Token to pull images
+    required: true
+
+runs: 
+  using: composite
+  steps:
+
+    - name: Pull e2e image
+      shell: bash
+      run: docker pull ${{ inputs.e2e-image }}
+
+    - name: Pull app image
+      shell: bash
+      run: docker pull ${{ inputs.app-image }}
+
+    - name: Setup Application
+      shell: bash
+      run: | 
+        docker run --rm -t -p 3000:3000 ${{ inputs.app-image }}
+
+    - name: Setup Application
+      shell: bash
+      run: | 
+        mkdir ${{github.workspace}}/playwright-report 
+        docker run --rm -t -p 3000:3000 \
+        - v ${{github.workspace}}/playwright-report:/usr/app/playwright-report
+        ${{ inputs.e2e-image }} 'npm test'
