@@ -34,7 +34,7 @@ runs:
     - name: Setup Application
       shell: bash
       run: | 
-        mkdir ${{github.workspace}}/playwright-report 
+        mkdir ${{github.workspace}}/playwright-report &&
         docker run --rm -t -p 3000:3000 \
         -v ${{github.workspace}}/playwright-report:/usr/app/playwright-report
         ${{ inputs.e2e-image }} 'npm test'
