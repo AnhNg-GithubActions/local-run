@@ -36,4 +36,4 @@ runs:
         mkdir ${{github.workspace}}/playwright-report &&
         docker run --rm \
         --network="host" \
-        ${{ inputs.e2e-image }} 'BASE_URL=http://local:3000/ npm test'
+        ${{ inputs.e2e-image }} 'BASE_URL=http://localhost:3000/ npm test'
