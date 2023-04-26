@@ -28,12 +28,12 @@ runs:
 
     - name: Setup Application
       shell: bash
-      run: | 
-        docker run --rm -d -t -p 3000:3000 ${{ inputs.app-image }}
+      run: docker run --rm -d -t -p 3000:3000 ${{ inputs.app-image }}
 
-    - name: Setup Application
+    - name: Run E2E
       shell: bash
       run: | 
         mkdir ${{github.workspace}}/playwright-report &&
         docker run --rm \
-        ${{ inputs.e2e-image }} 'BASE_URL=http://host.docker.internal:3000/ npm test'
+        --network="host" \
+        ${{ inputs.e2e-image }} 'BASE_URL=http://local:3000/ npm test'
