@@ -36,5 +36,4 @@ runs:
       run: | 
         mkdir ${{github.workspace}}/playwright-report &&
         docker run --rm \
-        -v ${{github.workspace}}/playwright-report:/usr/app/playwright-report
         ${{ inputs.e2e-image }} 'BASE_URL=http://host.docker.internal:3000/ npm test'
